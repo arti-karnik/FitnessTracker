@@ -16,8 +16,9 @@ mongoose.connect(
     useUnifiedTopology: true,
     useCreateIndex: true,
     useFindAndModify: false
-  }
-);
+  })
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err.message));
 /*
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dbworkout", {
   useNewUrlParser: true,
