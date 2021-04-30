@@ -1,22 +1,31 @@
-const express = require('express');
-const mongoose = require('mongoose');
+const express = require("express");
+const logger = require("morgan");
+const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
-const db = require("./models");
-const routes = require('./routes');
-
 const app = express();
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
-app.use(express.static('public'));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/budget", {
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
+
+mongoose.connect(
+  process.env.MONGODB_URI || 'mongodb://localhost/dbworkout',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+  }
+);
+/*
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dbworkout", {
   useNewUrlParser: true,
   useFindAndModify: false
-});
+});*/
 
-// routes
-//app.use(require("./routes/htmlRoutes.js"));
-app.use(routes);
+
+require("./routes/htmlroutes")(app);
+require("./routes/apiroutes")(app);
 
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
