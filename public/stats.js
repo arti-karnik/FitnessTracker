@@ -20,10 +20,24 @@ function generatePalette() {
 
   return arr;
 }
+function duration(dbworkout) {
+  let durations = [];
+
+  dbworkout.forEach(workout => {
+    workout.exercises.forEach(exercise => {
+      durations.push(exercise.duration);
+    });
+  });
+
+  return durations;
+}
+
 
 function populateChart(data) {
-  let durations = data.map(({ totalDuration }) => totalDuration);
-  let pounds = calculateTotalWeight(data);
+ // let durations = data.map(({ totalDuration }) => totalDuration);
+ let durations = duration(data);
+
+ let pounds = calculateTotalWeight(data);
   let workouts = workoutNames(data);
   const colors = generatePalette();
 
@@ -58,6 +72,7 @@ function populateChart(data) {
           borderColor: 'red',
           data: durations,
           fill: false,
+          data: durations,
         },
       ],
     },
