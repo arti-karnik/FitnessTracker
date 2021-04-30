@@ -2,16 +2,12 @@ const express = require("express");
 const logger = require("morgan");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
-const path = require("path");
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-//app.use(express.static("public"));
-app.use(express.static(path.join(__dirname, 'public')));
-
-
+app.use(express.static("public"));
 
 mongoose.connect(
   process.env.MONGODB_URI || 'mongodb://localhost/dbworkout',
@@ -28,21 +24,19 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dbworkout", {
   useNewUrlParser: true,
   useFindAndModify: false
 });*/
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public')));
+// routes
+app.use(require("./routes/route.js"));
 
-require("./routes/htmlRoutes")(app);
-require("./routes/apiRoutes")(app);
 
-app.listen(process.env.PORT || 3000, function(){
+
+app.listen(process.env.PORT || 3005, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
 });
 
 /*app.listen((process.env.PORT || 5000), function(){
   console.log('listening on 5000');
 });
-
+*/
 /*app.listen(PORT, () => {
   console.log(`App running on port ${PORT}!`);
 });*/
