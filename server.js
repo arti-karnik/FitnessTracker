@@ -3,6 +3,7 @@ const logger = require("morgan");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const path = require("path");
+const routes = require('./routes');
 
 const app = express();
 
@@ -28,10 +29,12 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/dbworkout", {
   useNewUrlParser: true,
   useFindAndModify: false
 });*/
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-
-require("./routes/htmlroutes")(app);
-require("./routes/apiroutes")(app);
+require("./routes/htmlRoutes")(app);
+require("./routes/apiRoutes")(app);
 
 app.listen(process.env.PORT || 3000, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
